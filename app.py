@@ -1,7 +1,7 @@
 import streamlit as st
 from transformers import MarianMTModel, MarianTokenizer
 
-# Load the MarianMT model for English to Urdu (you may replace this with a fine-tuned model)
+# Load the MarianMT model for English to Urdu (replace this with your fine-tuned model if available)
 model_name = "Helsinki-NLP/opus-mt-en-ur"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
@@ -18,8 +18,7 @@ def translate_to_roman_urdu(english_text):
     # Decode the output
     urdu_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
     
-    # For demonstration, we replace actual Urdu script with mock Roman Urdu
-    # Ideally, you need a Romanization step or model fine-tuned for this purpose
+    # Simple Roman Urdu conversion logic (this is a placeholder; refine as needed)
     roman_urdu_text = urdu_text[0].replace("ہے", "hai").replace("کی", "ki")  # Simplified example
     
     return roman_urdu_text
