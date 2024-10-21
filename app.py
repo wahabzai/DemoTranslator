@@ -12,15 +12,19 @@ st.title('English to Roman Urdu Translator')
 # Text input for English prompt
 english_text = st.text_area("Enter English Text:")
 
-# Dictionary for Urdu to Roman Urdu conversion (this is a simple example, expand as needed)
+# Dictionary for Urdu to Roman Urdu conversion (extend this as needed)
 urdu_to_roman_urdu = {
+    "ہیلو": "salam",
+    "آپ": "ap",
+    "کیسے": "kese",
+    "ہیں": "hain",
     "ہے": "hai",
-    "کی": "ki",
+    "ہوں": "hoon",
     "میں": "mein",
-    "ہوں": "hoon",
     "کرتا": "karta",
+    "کرتی": "kartii",
     "ہوں": "hoon",
-    # Add more mappings here...
+    # Add more mappings here
 }
 
 def urdu_to_roman(urdu_text):
@@ -31,13 +35,13 @@ def urdu_to_roman(urdu_text):
     return roman_urdu_text
 
 def translate_to_roman_urdu(english_text):
-    # Tokenize the input text
+    # Tokenize the input text and translate
     translated = model.generate(**tokenizer(english_text, return_tensors="pt", padding=True))
-    # Decode the output
-    urdu_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+    # Decode the output from Urdu script
+    urdu_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated][0]
     
-    # Convert the Urdu text to Roman Urdu
-    roman_urdu_text = urdu_to_roman(urdu_text[0])
+    # Convert Urdu script to Roman Urdu
+    roman_urdu_text = urdu_to_roman(urdu_text)
     
     return roman_urdu_text
 
