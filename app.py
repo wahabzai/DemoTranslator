@@ -1,7 +1,7 @@
 import streamlit as st
 from transformers import MarianMTModel, MarianTokenizer
 
-# Load the MarianMT model for English to Urdu (replace this with your fine-tuned model if available)
+# Load the MarianMT model for English to Urdu
 model_name = "Helsinki-NLP/opus-mt-en-ur"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
@@ -12,14 +12,32 @@ st.title('English to Roman Urdu Translator')
 # Text input for English prompt
 english_text = st.text_area("Enter English Text:")
 
+# Dictionary for Urdu to Roman Urdu conversion (this is a simple example, expand as needed)
+urdu_to_roman_urdu = {
+    "ہے": "hai",
+    "کی": "ki",
+    "میں": "mein",
+    "ہوں": "hoon",
+    "کرتا": "karta",
+    "ہوں": "hoon",
+    # Add more mappings here...
+}
+
+def urdu_to_roman(urdu_text):
+    # Replace Urdu words with Roman Urdu equivalents
+    roman_urdu_text = urdu_text
+    for urdu_word, roman_word in urdu_to_roman_urdu.items():
+        roman_urdu_text = roman_urdu_text.replace(urdu_word, roman_word)
+    return roman_urdu_text
+
 def translate_to_roman_urdu(english_text):
     # Tokenize the input text
     translated = model.generate(**tokenizer(english_text, return_tensors="pt", padding=True))
     # Decode the output
     urdu_text = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
     
-    # Simple Roman Urdu conversion logic (this is a placeholder; refine as needed)
-    roman_urdu_text = urdu_text[0].replace("ہے", "hai").replace("کی", "ki")  # Simplified example
+    # Convert the Urdu text to Roman Urdu
+    roman_urdu_text = urdu_to_roman(urdu_text[0])
     
     return roman_urdu_text
 
